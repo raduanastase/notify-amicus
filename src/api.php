@@ -1,6 +1,6 @@
 <?php
 
-$MAILCHIMP_API_KEY = "fae8b66be4a122a8bdc28328eeacdb0e-us15";
+$MAILCHIMP_API_KEY = "******************-us15";
 
 $MAILCHIMP_API_SERVER = explode('-', $MAILCHIMP_API_KEY)[1];
 
