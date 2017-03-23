@@ -11,7 +11,8 @@ export default class App extends Component {
     this.closeModal = this.closeModal.bind(this);
 
     this.state = {
-      visibleModal: false
+      visibleModal: false,
+      subscribeUrl: null
     };
   }
 
@@ -20,17 +21,20 @@ export default class App extends Component {
       <Grid>
         <PageHeader>Notify Amicus</PageHeader>
         <Row>
-          {this.props.data.lists.map((list, index) => (
+          {this.props.data.map((list, index) => (
             <ThumbProject key={index} {...list} onClick={this.showModal}/>
           ))}
         </Row>
-        <ModalProject closeModal={this.closeModal} visibleModal={this.state.visibleModal}/>
+        <ModalProject closeModal={this.closeModal} visibleModal={this.state.visibleModal} subscribeUrl={this.state.subscribeUrl}/>
       </Grid>
     );
   }
 
-  showModal() {
-    this.setState({visibleModal: true});
+  showModal(subscribeUrl) {
+    this.setState({
+      visibleModal: true,
+      subscribeUrl: subscribeUrl
+    });
   }
 
   closeModal() {

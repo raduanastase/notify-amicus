@@ -9,10 +9,28 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App.jsx';
 
-fetch('build/data.json')
+const baseUrl = 'http://localhost/notify/';
+const buildComponent = (json) => {
+  ReactDOM.render(<App data={json}/>, document.getElementById('react-root'));
+};
+
+//fetch(`build/data.json`)
+fetch(`${baseUrl}cache.json`)
   .then(response => {
-    return response.json()
+    console.log("RRR", response);
+    return response.json();
   })
   .then(json => {
-    ReactDOM.render(<App data={json} />, document.getElementById('react-root'));
+    buildComponent(json);
+  })
+  .catch(() => {
+    console.log("CATCHass");
+
+    fetch(`${baseUrl}api.php`)
+      .then(response => {
+        return response.json();
+      })
+      .then(json => {
+        buildComponent(json);
+      })
   });
