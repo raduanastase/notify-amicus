@@ -9,4 +9,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App.jsx';
 
-ReactDOM.render(<App />, document.getElementById('react-root'));
+fetch('build/data.json')
+  .then(response => {
+    return response.json()
+  })
+  .then(json => {
+    ReactDOM.render(<App data={json} />, document.getElementById('react-root'));
+  });

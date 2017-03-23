@@ -1,0 +1,22 @@
+{
+  "lists": [
+    {
+      "title": "Text 1",
+      "image": "build/img1.jpg",
+      "description": "L:OOOONG",
+      "subscribe_link": "http://codethatcounts.us15.list-manage.com/subscribe?u=c65034dfcbc4d3743e8ec7353&id=79e350fff6"
+    },
+    {
+      "title": "Text 2",
+      "image": "build/img2.jpg",
+      "description": "L:OOOONG",
+      "subscribe_link": "http://codethatcounts.us15.list-manage.com/subscribe?u=c65034dfcbc4d3743e8ec7353&id=903f331f57"
+    },
+    {
+      "title": "Text 3",
+      "image": "build/img3.jpg",
+      "description": "L:OOOONG",
+      "subscribe_link": "http://codethatcounts.us15.list-manage.com/subscribe?u=c65034dfcbc4d3743e8ec7353&id=f2103ce015"
+    }
+  ]
+}
