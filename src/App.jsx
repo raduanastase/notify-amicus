@@ -13,8 +13,10 @@ export default class App extends Component {
 
     this.state = {
       visibleModal: false,
-      subscribeUrl: null,
-      modalTitle: null
+      subscribe_link: '',
+      title: '',
+      image: '',
+      description: ''
     };
   }
 
@@ -27,17 +29,18 @@ export default class App extends Component {
             <ThumbProject key={index} {...list} onClick={this.showModal}/>
           ))}
         </Row>
-        <ModalProject closeModal={this.closeModal} visibleModal={this.state.visibleModal}
-                      subscribeUrl={this.state.subscribeUrl} modalTitle={this.state.modalTitle}/>
+        <ModalProject closeModal={this.closeModal} baseUrl={this.props.baseUrl} {...this.state}/>
       </Grid>
     );
   }
 
-  showModal(subscribeUrl, modalTitle) {
+  showModal(projectData) {
     this.setState({
       visibleModal: true,
-      subscribeUrl: subscribeUrl,
-      modalTitle: modalTitle
+      subscribe_link: projectData.subscribe_link,
+      title: projectData.title,
+      image: projectData.image,
+      description: projectData.description
     });
   }
 
