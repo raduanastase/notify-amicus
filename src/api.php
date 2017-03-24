@@ -1,6 +1,6 @@
 <?php
 
-$MAILCHIMP_API_KEY = "******************-us15";
+$MAILCHIMP_API_KEY = "********************************-us15";
 
 $MAILCHIMP_API_SERVER = explode('-', $MAILCHIMP_API_KEY)[1];
 
@@ -11,7 +11,7 @@ $MAILCHIMP_API_URL = "https://" . $MAILCHIMP_API_SERVER . ".api.mailchimp.com/3.
  * @param $endpoint_path
  * @return a json with data found
  */
-function mailchimp_call($endpoint_path)
+function mailchimp_call($endpoint_path, $post_data)
 {
     global $MAILCHIMP_API_KEY;
     global $MAILCHIMP_API_URL;
@@ -33,6 +33,10 @@ function mailchimp_call($endpoint_path)
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
     curl_setopt($ch, CURLOPT_URL, $api_url);
+    if (!empty($post_data)) {
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+    }
     $response = curl_exec($ch);
 
     if ($response == false) {
@@ -49,7 +53,7 @@ function mailchimp_call($endpoint_path)
  */
 function get_mailchimp_lists()
 {
-    $lists = mailchimp_call("lists");
+    $lists = mailchimp_call("lists", "");
 
     return json_decode($lists, true);
 }
@@ -61,7 +65,7 @@ function get_mailchimp_lists()
  */
 function get_image_and_description_for_list($mailchimp_list_id)
 {
-    $list_info = json_decode(mailchimp_call("lists/" . $mailchimp_list_id . "/signup-forms"), true);
+    $list_info = json_decode(mailchimp_call("lists/" . $mailchimp_list_id . "/signup-forms", ""), true);
 
     $list_info_result = array(
         'image' => '',
@@ -117,13 +121,28 @@ function build_projects_list()
     return $built_list;
 }
 
+/**
+ * Makes a call to mailchimp to add the email to the subscribers list
+ * @param $list_id
+ * @param $data
+ * @return string with json received from mailchimp
+ */
+function subscribe_email($list_id, $data){
+    return mailchimp_call("lists/" . $list_id . "/members", $data);
+}
+
+
 header('Content-Type: application/json');
 
-$output = json_encode(build_projects_list(), JSON_PRETTY_PRINT);
-$file = fopen("cache.json", "w");
+if (isset($_POST['list_id']) && isset($_POST['json_data'])) {
+    $output = json_encode(subscribe_email($_POST['list_id'], $_POST['json_data']), JSON_PRETTY_PRINT);
+} else {
+    $output = json_encode(build_projects_list(), JSON_PRETTY_PRINT);
+    $file = fopen("cache.json", "w");
 
-fwrite($file, $output);
-fclose($file);
+    fwrite($file, $output);
+    fclose($file);
+}
 
 echo $output;
 
