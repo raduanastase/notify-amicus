@@ -9,7 +9,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App.jsx';
 
-const baseUrl = 'http://localhost/notify/';
+const baseUrl = '/';
 const buildComponent = (json) => {
   ReactDOM.render(<App data={json} baseUrl={baseUrl}/>, document.getElementById('react-root'));
 };
