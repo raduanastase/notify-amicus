@@ -40,7 +40,8 @@ export default class App extends Component {
       subscribe_link: projectData.subscribe_link,
       title: projectData.title,
       image: projectData.image,
-      description: projectData.description
+      description: projectData.description,
+      listId: projectData.id
     });
   }
 

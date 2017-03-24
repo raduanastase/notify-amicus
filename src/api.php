@@ -135,9 +135,9 @@ function subscribe_email($list_id, $data){
 header('Content-Type: application/json');
 
 if (isset($_POST['list_id']) && isset($_POST['json_data'])) {
-    $output = json_encode(subscribe_email($_POST['list_id'], $_POST['json_data']), JSON_PRETTY_PRINT);
+    $output = subscribe_email($_POST['list_id'], $_POST['json_data']);
 } else {
-    $output = json_encode(build_projects_list(), JSON_PRETTY_PRINT);
+    $output = build_projects_list();
     $file = fopen("cache.json", "w");
 
     fwrite($file, $output);

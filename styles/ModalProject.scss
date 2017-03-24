@@ -12,6 +12,20 @@
 
     .text-wrapper {
       padding: 20px;
+
+      label {
+        width: 100%;
+      }
+
+      input {
+        display: block;
+        width: 100%;
+      }
+
+      .text-align-left {
+        text-align: left;
+        margin-top: 10px;
+      }
     }
   }
 }

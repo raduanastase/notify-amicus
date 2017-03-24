@@ -18,6 +18,8 @@ export default class ModalProject extends Component {
   }
 
   render() {
+    const defaultImage = 'build/default.jpg';
+
     return (
       <Modal show={this.props.visibleModal} onHide={this.props.closeModal} bsSize="large" className="modal-project">
         <Modal.Header closeButton>
@@ -26,7 +28,7 @@ export default class ModalProject extends Component {
         <Modal.Body>
           <Row className="image-wrapper">
             <Col xs={12}>
-              <img src={this.props.image && this.props.image}/>
+              <img src={this.props.image ? this.props.image : defaultImage}/>
             </Col>
           </Row>
           <Row className="text-wrapper">
@@ -37,15 +39,16 @@ export default class ModalProject extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col xs={12}>
+                <Col xs={6} xsOffset={3} className="text-align-left">
                   <label htmlFor="email">
                     Email<span className="asterisk">*</span>
-                    <input name="email" type="email" id="email" value={this.state.email} onChange={this.handleEmailChange}/>
+                    <input name="email" type="email" id="email" value={this.state.email}
+                           onChange={this.handleEmailChange}/>
                   </label>
                 </Col>
               </Row>
               <Row>
-                <Col xs={12}>
+                <Col xs={6} xsOffset={3} className="text-align-left">
                   <label htmlFor="first-name">
                     Prenumele
                     <input name="first-name" type="text" id="first-name"/>
@@ -53,7 +56,7 @@ export default class ModalProject extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col xs={12}>
+                <Col xs={6} xsOffset={3} className="text-align-left">
                   <label htmlFor="last-name">
                     Numele
                     <input name="last-name" type="text" id="last-name"/>
@@ -64,7 +67,7 @@ export default class ModalProject extends Component {
           </Row>
           <Row>
             <Col xs={12}>
-              <Button onClick={this.onSubscribeClick}>Subscribe</Button>
+              <Button onClick={this.onSubscribeClick} bsStyle="success">Subscribe</Button>
             </Col>
           </Row>
         </Modal.Body>
@@ -72,7 +75,7 @@ export default class ModalProject extends Component {
     );
   }
 
-  handleEmailChange() {
+  handleEmailChange(event) {
     this.setState({email: event.target.value});
   }
 
@@ -80,33 +83,49 @@ export default class ModalProject extends Component {
     this.setState({firstName: event.target.value});
   }
 
-  handleLastNameChange() {
+  handleLastNameChange(event) {
     this.setState({lastName: event.target.value});
   }
 
   onSubscribeClick() {
+    console.log(this.state);
+    const params = {
+      'list_id': this.props.listId,
+      'json_data': JSON.stringify({
+        "email_address": this.state.email,
+        "status": "pending",
+        "merge_fields": {
+          "FNAME": this.state.firstName,
+          "LNAME": this.state.lastName
+        }
+      })
+    };
+
     fetch(`${this.props.baseUrl}api.php`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/x-www-form-urlencoded'
       },
-      body: JSON.stringify({
-        json_data: {
-          "email_address": this.state.email,
-          "status": "pending",
-          "merge_fields": {
-            "FNAME": this.state.firstName,
-            "LNAME": this.state.lastName
-          }
-        },
-        list_id: this.props.id,
-      })
+      body: this.encodeParams(params)
     })
-      .then(() => {
-        console.log('OK');
+      .then((response) => {
+        return response.json();
+      })
+      .then((json) => {
+        if (json.status === 'pending') {
+          alert('Verifica mailul pt terminarea inscrierii!');
+        } else {
+          alert('Esti deja inscris la acest proiect!');
+        }
       })
       .catch(() => {
         alert('A aparut o eroare la inscriere!');
       });
+  }
+
+  encodeParams(params) {
+    return Object.keys(params).map((key) => {
+      return encodeURIComponent(key) + '=' + encodeURIComponent(params[key]);
+    }).join('&');
   }
 }
