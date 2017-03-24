@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Modal, Button} from 'react-bootstrap';
+import {Modal} from 'react-bootstrap';
 
 export default class ModalProject extends Component {
   constructor(...args) {
@@ -17,7 +17,7 @@ export default class ModalProject extends Component {
     return (
       <Modal show={this.props.visibleModal} onHide={this.onCloseModal} bsSize="large" className="modal-project">
         <Modal.Header closeButton>
-          <Modal.Title>{this.props.title}</Modal.Title>
+          <Modal.Title>{this.props.modalTitle}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <iframe src={this.props.subscribeUrl} onLoad={this.onIframeLoad} className={!this.state.iframeLoaded && 'hidden'}>

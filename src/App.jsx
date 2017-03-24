@@ -13,7 +13,8 @@ export default class App extends Component {
 
     this.state = {
       visibleModal: false,
-      subscribeUrl: null
+      subscribeUrl: null,
+      modalTitle: null
     };
   }
 
@@ -27,15 +28,16 @@ export default class App extends Component {
           ))}
         </Row>
         <ModalProject closeModal={this.closeModal} visibleModal={this.state.visibleModal}
-                      subscribeUrl={this.state.subscribeUrl}/>
+                      subscribeUrl={this.state.subscribeUrl} modalTitle={this.state.modalTitle}/>
       </Grid>
     );
   }
 
-  showModal(subscribeUrl) {
+  showModal(subscribeUrl, modalTitle) {
     this.setState({
       visibleModal: true,
-      subscribeUrl: subscribeUrl
+      subscribeUrl: subscribeUrl,
+      modalTitle: modalTitle
     });
   }
 

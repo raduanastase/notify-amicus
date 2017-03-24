@@ -20,6 +20,6 @@ export default class ThumbProject extends Component {
   }
 
   onClick() {
-    this.props.onClick(this.props.subscribe_link);
+    this.props.onClick(this.props.subscribe_link, this.props.title);
   }
 }
