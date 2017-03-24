@@ -9,9 +9,11 @@ export default class ThumbProject extends Component {
   }
 
   render() {
+    const defaultImage = 'build/default.jpg';
+
     return (
         <Col className="thumb-project" xs={12} md={4} onClick={this.onClick}>
-          <div className="image-wrapper"><img src={this.props.image}/></div>
+          <div className="image-wrapper"><img src={this.props.image ? this.props.image : defaultImage}/></div>
           <div className="description">{this.props.title}</div>
         </Col>
     );

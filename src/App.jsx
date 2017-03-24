@@ -9,6 +9,7 @@ export default class App extends Component {
 
     this.showModal = this.showModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.refreshCache = this.refreshCache.bind(this);
 
     this.state = {
       visibleModal: false,
@@ -19,13 +20,14 @@ export default class App extends Component {
   render() {
     return (
       <Grid>
-        <PageHeader>Notify Amicus</PageHeader>
+        <PageHeader onClick={this.refreshCache}>Notify Amicus</PageHeader>
         <Row>
           {this.props.data.map((list, index) => (
             <ThumbProject key={index} {...list} onClick={this.showModal}/>
           ))}
         </Row>
-        <ModalProject closeModal={this.closeModal} visibleModal={this.state.visibleModal} subscribeUrl={this.state.subscribeUrl}/>
+        <ModalProject closeModal={this.closeModal} visibleModal={this.state.visibleModal}
+                      subscribeUrl={this.state.subscribeUrl}/>
       </Grid>
     );
   }
@@ -39,5 +41,15 @@ export default class App extends Component {
 
   closeModal() {
     this.setState({visibleModal: false});
+  }
+
+  refreshCache() {
+    fetch(`${this.props.baseUrl}api.php`)
+      .then(response => {
+        return response.json();
+      })
+      .then(() => {
+        window.location.reload(true);
+      });
   }
 }
